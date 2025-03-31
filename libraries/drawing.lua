@@ -5,17 +5,21 @@ end
 local cloneref = cloneref or function(obj)
 	return obj
 end
+
 local httpService = cloneref(game:GetService('HttpService'))
 local runService = cloneref(game:GetService('RunService'))
 local isactor = ...
 local id, commchannel
+
 if isactor then
 	id, commchannel = isactor, get_comm_channel(isactor)
 else
 	id, commchannel = create_comm_channel()
 end
+
 local drawingrefs, queued, thread = {}, {}
 isactor = isactor and true or false
+
 local classes = {
 	Base = {
 		'Visible',
@@ -82,18 +86,15 @@ commchannel.Event:Connect(function(...)
 			local proxy = newproxy(true)
 			local meta = getmetatable(proxy)
 			local realobj = {Changed = {}}
-
 			function realobj:Remove()
 				commchannel:Fire(false, 'remove', args[2])
 				drawingrefs[args[2]] = nil
 			end
-
 			meta.__index = realobj
 			meta.__newindex = function(_, ind, val)
 				rawset(realobj.Changed, ind, val)
 				return rawset(realobj, ind, val)
 			end
-
 			for i, v in args[1] do
 				rawset(realobj, i, v)
 			end
@@ -159,14 +160,12 @@ if isactor and not Drawing then
 					table.clear(v.Changed)
 				end
 			end
-
 			if set then
 				commchannel:Fire(false, 'update', changed)
 			end
 			runService.RenderStepped:Wait()
 		until false
 	end)
-
 	getgenv().Drawing = {
 		new = function(objtype)
 			local newid = httpService:GenerateGUID(true):sub(1, 6)
