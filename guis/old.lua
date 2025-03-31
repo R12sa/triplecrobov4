@@ -218,22 +218,22 @@ local function createMobileButton(buttonapi, position)
 end
 
 local function downloadFile(path, func)
-	if not isfile(path) then
-		createDownloader(path)
-		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
-		if not suc or res == '404: Not Found' then
-			error(res)
-		end
-		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
-		end
-		writefile(path, res)
-	end
-	return (func or readfile)(path)
+    if not isfile(path) then
+        createDownloader(path)
+        local suc, res = pcall(function()
+            -- Changed URL to point to R12sa's repository
+            return game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/'..select(1, path:gsub('newvape/', '')), true)
+        end)
+        if not suc or res == '404: Not Found' then
+            error(res)
+        end
+        if path:find('.lua') then
+            res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+        end
+        writefile(path, res)
+    end
+    return (func or readfile)(path)
 end
-
 getcustomasset = not inputService.TouchEnabled and assetfunction and function(path)
 	return downloadFile(path, assetfunction)
 end or function(path)
@@ -3724,20 +3724,21 @@ scaleslider = topbar:CreateSlider({
 	Visible = false
 })
 topbar:CreateDropdown({
-	Name = 'GUI Theme',
-	List = inputService.TouchEnabled and {'new', 'old'} or {'new', 'old', 'rise'},
-	Function = function(val, mouse)
-		if mouse then
-			writefile('newvape/profiles/gui.txt', val)
-			shared.vapereload = true
-			if shared.VapeDeveloper then
-				loadstring(readfile('newvape/loader.lua'), 'loader')()
-			else
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-			end
-		end
-	end,
-	Tooltip = 'new - The newest vape theme to since v4.05\nold - The vape theme pre v4.05\nrise - Rise 6.0'
+    Name = 'GUI Theme',
+    List = inputService.TouchEnabled and {'new', 'old'} or {'new', 'old', 'rise'},
+    Function = function(val, mouse)
+        if mouse then
+            writefile('newvape/profiles/gui.txt', val)
+            shared.vapereload = true
+            if shared.VapeDeveloper then
+                loadstring(readfile('newvape/loader.lua'), 'loader')()
+            else
+                -- Changed URL to point to R12sa's repository
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/loader.lua', true))()
+            end
+        end
+    end,
+    Tooltip = 'new - The newest vape theme to since v4.05\nold - The vape theme pre v4.05\nrise - Rise 6.0'
 })
 mainapi.RainbowMode = topbar:CreateDropdown({
 	Name = 'Rainbow Mode',
@@ -3761,20 +3762,21 @@ mainapi.RainbowUpdateSpeed = topbar:CreateSlider({
 	Suffix = 'hz'
 })
 topbar:CreateButton({
-	Name = 'Reset current profile',
-	Function = function()
-	mainapi.Save = function() end
-		if isfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt') and delfile then
-			delfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt')
-		end
-		shared.vapereload = true
-		if shared.VapeDeveloper then
-			loadstring(readfile('newvape/loader.lua'), 'loader')()
-		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-		end
-	end,
-	Tooltip = 'This will set your profile to the default settings of Vape'
+    Name = 'Reset current profile',
+    Function = function()
+        mainapi.Save = function() end
+        if isfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt') and delfile then
+            delfile('newvape/profiles/'..mainapi.Profile..mainapi.Place..'.txt')
+        end
+        shared.vapereload = true
+        if shared.VapeDeveloper then
+            loadstring(readfile('newvape/loader.lua'), 'loader')()
+        else
+            -- Changed URL to point to R12sa's repository
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/loader.lua', true))()
+        end
+    end,
+    Tooltip = 'This will set your profile to the default settings of Vape'
 })
 topbar:CreateButton({
 	Name = 'Reset GUI positions',
@@ -3830,16 +3832,17 @@ topbar:CreateButton({
 	Tooltip = 'Removes vape from the current game'
 })
 topbar:CreateButton({
-	Name = 'REINEJCT',
-	Function = function()
-		shared.vapereload = true
-		if shared.VapeDeveloper then
-			loadstring(readfile('newvape/loader.lua'), 'loader')()
-		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-		end
-	end,
-	Tooltip = 'Reloads vape for debugging purposes'
+    Name = 'REINEJCT',
+    Function = function()
+        shared.vapereload = true
+        if shared.VapeDeveloper then
+            loadstring(readfile('newvape/loader.lua'), 'loader')()
+        else
+            -- Changed URL to point to R12sa's repository
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/loader.lua', true))()
+        end
+    end,
+    Tooltip = 'Reloads vape for debugging purposes'
 })
 topbar:CreateBind()
 
