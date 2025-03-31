@@ -241,20 +241,21 @@ local function createHighlight(size, pos)
 end
 
 local function downloadFile(path, func)
-	if not isfile(path) then
-		createDownloader(path)
-		local suc, res = pcall(function()
-			return game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/'..select(1, path:gsub('newvape/', '')), true)
-		end)
-		if not suc or res == '404: Not Found' then
-			error(res)
-		end
-		if path:find('.lua') then
-			res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
-		end
-		writefile(path, res)
-	end
-	return (func or readfile)(path)
+    if not isfile(path) then
+        createDownloader(path)
+        local suc, res = pcall(function()
+            -- Changed URL to point to R12sa's repository
+            return game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/'..select(1, path:gsub('newvape/', '')), true)
+        end)
+        if not suc or res == '404: Not Found' then
+            error(res)
+        end
+        if path:find('.lua') then
+            res = '--This watermark is used to delete the file if its cached, remove it to make the file persist after vape updates.\n'..res
+        end
+        writefile(path, res)
+    end
+    return (func or readfile)(path)
 end
 
 getcustomasset = not inputService.TouchEnabled and assetfunction and function(path)
@@ -2841,19 +2842,19 @@ scaleslider = mainapi.Categories.Main:CreateSlider({
 	Visible = false
 })
 mainapi.Categories.Main:CreateDropdown({
-	Name = 'GUI Theme',
-	List = {'rise', 'new', 'old'},
-	Function = function(val, mouse)
-		if mouse then
-			writefile('newvape/profiles/gui.txt', val)
-			shared.vapereload = true
-			if shared.VapeDeveloper then
-				loadstring(readfile('newvape/loader.lua'), 'loader')()
-			else
-				loadstring(game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-			end
-		end
-	end
+    Name = 'GUI Theme',
+    List = {'rise', 'new', 'old'},
+    Function = function(val, mouse)
+        if mouse then
+            writefile('newvape/profiles/gui.txt', val)
+            shared.vapereload = true
+            if shared.VapeDeveloper then
+                loadstring(readfile('newvape/loader.lua'), 'loader')()
+            else
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/loader.lua', true))()
+            end
+        end
+    end
 })
 mainapi.RainbowSpeed = mainapi.Categories.Main:CreateSlider({
 	Name = 'Color speed',
@@ -2872,15 +2873,15 @@ mainapi.RainbowUpdateSpeed = mainapi.Categories.Main:CreateSlider({
 	Suffix = 'hz'
 })
 mainapi.Categories.Main:CreateButton({
-	Name = 'Reinject',
-	Function = function()
-		shared.vapereload = true
-		if shared.VapeDeveloper then
-			loadstring(readfile('newvape/loader.lua'), 'loader')()
-		else
-			loadstring(game:HttpGet('https://raw.githubusercontent.com/QP-Offcial/VapeV4ForRoblox/'..readfile('newvape/profiles/commit.txt')..'/loader.lua', true))()
-		end
-	end
+    Name = 'Reinject',
+    Function = function()
+        shared.vapereload = true
+        if shared.VapeDeveloper then
+            loadstring(readfile('newvape/loader.lua'), 'loader')()
+        else
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/R12sa/triplecrobov4/main/loader.lua', true))()
+        end
+    end
 })
 mainapi.Categories.Main:CreateButton({
 	Name = 'Uninject',
